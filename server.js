@@ -5,6 +5,7 @@ import db from './db.js';
 
 const app = express();
 const BLOG_URL = 'https://silent-hunting.blogspot.com';
+const Server_URL = 'https://breakable-marin-black-lotus-ai-37a171f1.koyeb.app';
 
 // Middleware
 app.use(cors());
@@ -16,7 +17,7 @@ app.use(express.json());
 app.post('/api/shorten', async (req, res) => {
     try {
         const { url } = req.body;
-        
+        console.log(url);
         if (!url) {
             return res.status(400).json({ error: 'URL is required' });
         }
@@ -28,7 +29,7 @@ app.post('/api/shorten', async (req, res) => {
 
         if (existingUrl.rows.length > 0) {
             return res.json({
-                shortUrl: `https://breakable-marin-black-lotus-ai-37a171f1.koyeb.app/r/${existingUrl.rows[0].short_code}`,
+                shortUrl: `${Server_URL}/r/${existingUrl.rows[0].short_code}`,
                 originalUrl: url,
                 shortCode: existingUrl.rows[0].short_code
             });
@@ -36,15 +37,27 @@ app.post('/api/shorten', async (req, res) => {
 
         const shortCode = nanoid(6);
         
-        await db.queryAsync(
+        const result = await db.queryAsync(
             'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
             [url, shortCode]
         );
+        const shortCode2 = nanoid(6);
+
+       const result2 = await db.queryAsync(
+            'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
+            [result.rows[0].url, shortCode2]
+        );
+        const shortCode3 = nanoid(6);
+
+        const result3 = await db.queryAsync(
+            'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
+            [result2.rows[0].url, shortCode3]
+        );
 
         res.json({
-            shortUrl: `https://breakable-marin-black-lotus-ai-37a171f1.koyeb.app/r/${shortCode}`,
+            shortUrl: `${Server_URL}/r/${shortCode3}`,
             originalUrl: url,
-            shortCode: shortCode
+            shortCode: shortCode3
         });
 
     } catch (err) {
