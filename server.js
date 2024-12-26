@@ -45,13 +45,13 @@ app.post('/api/shorten', async (req, res) => {
 
        const result2 = await db.queryAsync(
             'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
-            [result.rows[0].url, shortCode2]
+            [`${Server_URL}/r/${shortCode}`.url, shortCode2]
         );
         const shortCode3 = nanoid(6);
 
         const result3 = await db.queryAsync(
             'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
-            [result2.rows[0].url, shortCode3]
+            [`${Server_URL}/r/${shortCode2}`, shortCode3]
         );
 
         res.json({
