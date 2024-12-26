@@ -28,7 +28,7 @@ app.post('/api/shorten', async (req, res) => {
 
         if (existingUrl.rows.length > 0) {
             return res.json({
-                shortUrl: `http://localhost:3000/r/${existingUrl.rows[0].short_code}`,
+                shortUrl: `https://breakable-marin-black-lotus-ai-37a171f1.koyeb.app/r/${existingUrl.rows[0].short_code}`,
                 originalUrl: url,
                 shortCode: existingUrl.rows[0].short_code
             });
@@ -42,7 +42,7 @@ app.post('/api/shorten', async (req, res) => {
         );
 
         res.json({
-            shortUrl: `http://localhost:3000/r/${shortCode}`,
+            shortUrl: `https://breakable-marin-black-lotus-ai-37a171f1.koyeb.app/r/${shortCode}`,
             originalUrl: url,
             shortCode: shortCode
         });
