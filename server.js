@@ -37,26 +37,26 @@ app.post('/api/shorten', async (req, res) => {
 
         const shortCode = nanoid(6);
         
-        const result = await db.queryAsync(
+        await db.queryAsync(
             'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
             [url, shortCode]
         );
+
         const shortCode2 = nanoid(6);
-
-       const result2 = await db.queryAsync(
+        await db.queryAsync(
             'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
-            [`${Server_URL}/r/${shortCode}`.url, shortCode2]
+            [`${Server_URL}/r/${shortCode}`, shortCode2]
         );
-        const shortCode3 = nanoid(6);
 
-        const result3 = await db.queryAsync(
+        const shortCode3 = nanoid(6);
+        await db.queryAsync(
             'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
             [`${Server_URL}/r/${shortCode2}`, shortCode3]
         );
 
         res.json({
             shortUrl: `${Server_URL}/r/${shortCode3}`,
-            originalUrl: result3.rows[0].original_url,
+            originalUrl: `${Server_URL}/r/${shortCode2}`,
             shortCode: shortCode3
         });
 
