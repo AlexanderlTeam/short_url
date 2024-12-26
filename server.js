@@ -56,7 +56,7 @@ app.post('/api/shorten', async (req, res) => {
 
         res.json({
             shortUrl: `${Server_URL}/r/${shortCode3}`,
-            originalUrl: url,
+            originalUrl: result3.rows[0].original_url,
             shortCode: shortCode3
         });
 
