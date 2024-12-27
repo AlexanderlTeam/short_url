@@ -65,7 +65,7 @@ app.post('/api/shorten', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
-app.post('v1/api/shorten', async (req, res) => {
+app.post('/v1/api/shorten', async (req, res) => {
     try {
         const { url } = req.body;
         console.log(url);
