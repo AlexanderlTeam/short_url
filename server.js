@@ -4,8 +4,8 @@ import { nanoid } from 'nanoid';
 import db from './db.js';
 
 const app = express();
-const BLOG_URL = 'https://silent-hunting.blogspot.com';
-const Server_URL = 'https://breakable-marin-black-lotus-ai-37a171f1.koyeb.app';
+const BLOG_URL = 'https://ai-news1.blogspot.com';
+const Server_URL = 'https://ai-news1.blogspot.com';
 
 // Middleware
 app.use(cors());
