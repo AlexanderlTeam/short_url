@@ -65,6 +65,45 @@ app.post('/api/shorten', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+app.post('v1/api/shorten', async (req, res) => {
+    try {
+        const { url } = req.body;
+        console.log(url);
+        if (!url) {
+            return res.status(400).json({ error: 'URL is required' });
+        }
+
+        const existingUrl = await db.queryAsync(
+            'SELECT * FROM urls WHERE original_url = ?',
+            [url]
+        );
+
+        if (existingUrl.rows.length > 0) {
+            return res.json({
+                shortUrl: `${BLOG_URL}/search?sh_code=${existingUrl.rows[0].short_code}&redirect=true`,
+                originalUrl: url,
+                shortCode: existingUrl.rows[0].short_code
+            });
+        }
+
+        const shortCode = nanoid(6);
+        
+        await db.queryAsync(
+            'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
+            [url, shortCode]
+        );
+
+        res.json({
+            shortUrl: `${BLOG_URL}/search?sh_code=${shortCode}&redirect=true`,
+            originalUrl: url,
+            shortCode: shortCode
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 // 2. إعادة توجيه الرابط المختصر
 app.get('/r/:shortCode', async (req, res) => {
